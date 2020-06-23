@@ -1,0 +1,16 @@
+dash
+dash-cytoscape
+requests
+flask
+retrying
+ipython
+ipykernel
+ansi2html
+notebook==6.0.3
+jupyter_server_proxy
+pandas
+numpy
+jupyter-dash
+beautifulsoup4
+lxml
+-e git+https://github.com/ecell/kegg2cyjs.git#egg=kegg2cyjs-0.0.1

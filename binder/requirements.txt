@@ -14,3 +14,4 @@ jupyter-dash
 beautifulsoup4
 lxml
 -e git+https://github.com/ecell/kegg2cyjs.git#egg=kegg2cyjs-0.0.1
+-e git+https://github.com/ecell/dash-pathway.git#egg=dash-pathway-0.0.1

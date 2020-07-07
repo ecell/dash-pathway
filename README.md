@@ -22,9 +22,9 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = JupyterDash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-app.layout = html.Div(children=[
-    dash_pathway.KeggScape(pathwayid="eco01100")[0]
+app.layout = html.Div(id='pathway-body', children=[
+    dash_pathway.KeggScape(pathwayid="eco00010")
 ])
 
-app.run_server(mode="jupyterlab")
+app.run_server()
 ```

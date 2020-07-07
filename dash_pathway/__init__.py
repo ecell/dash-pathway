@@ -1,7 +1,7 @@
 import dash_cytoscape as cyto
 import plotly.graph_objs as go
 
-import kegg2cyjs
+import pathway2cyjs
 import dash_table
 import pandas as pd
 
@@ -83,8 +83,8 @@ Keyword arguments:
     Returns:
     - object: A figure compatible with plotly.graph_objs."""
 
-        elems = kegg2cyjs.kegg2cyjs(self.pathwayid)
-        node_table = kegg2cyjs.nodes2df(elems['nodes'])
+        elems = pathway2cyjs.kegg2cyjs(self.pathwayid)
+        node_table = pathway2cyjs.cynodes2df(elems['nodes'])
 
         if self.pathwayid[3:] not in GLOBAL_PATHWAY_IDS:
             gene_table = node_table[node_table['keggtype'] == "gene"]
@@ -100,7 +100,7 @@ Keyword arguments:
             else:
                 result = tidy_table
         else:
-            result = kegg2cyjs.nodes2df(elems['edges'])
+            result = pathway2cyjs.cynodes2df(elems['edges'])
             result = result.assign(genes=result.genes.str.split(" ")).explode('genes')
 
             if isinstance(self.df, pd.DataFrame):
@@ -109,9 +109,9 @@ Keyword arguments:
                 result = result.sort_values(by=['id'])
 
         if self.pathwayid[3:] in GLOBAL_PATHWAY_IDS:
-            stylesheet = kegg2cyjs.KEGG_GLOBAL_STYLE[0]["style"]
+            stylesheet = pathway2cyjs.KEGG_GLOBAL_STYLE[0]["style"]
         else:
-            stylesheet = kegg2cyjs.KEGG_STYLE[0]["style"]
+            stylesheet = pathway2cyjs.KEGG_STYLE[0]["style"]
         
         return cyto.Cytoscape(
                     style= {'width': str(self.width)+'px', 'height': str(self.height)+'px'},

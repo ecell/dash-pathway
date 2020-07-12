@@ -14,6 +14,7 @@ def KeggScape(
         height=600,
         node_style=None,
         edge_style=None,
+        id=None,
         df=None
 ):
     """Returns a figure for a KEGG pathway.
@@ -25,6 +26,7 @@ Keyword arguments:
 - height (int; optional): The height of the graph, in px. (Default: 600)
 - node_style (dictionary; optional): The style of the nodes. (Default: None)
 - edge_style (dictionary; optional): The style of the edges. (Default: None)
+- id (string; optional): The ID used to identify this component in Dash callbacks.
 - df (pd.DataFrame; optional): The user data matrix. (Default: None)
 
     # ...
@@ -44,6 +46,7 @@ Keyword arguments:
         height=height,
         node_style=node_style,
         edge_style=edge_style,
+        id=id,
         df=df
     )
 
@@ -61,6 +64,7 @@ Keyword arguments:
 - height (int; optional): The height of the graph, in px. (Default: 600)
 - node_style (dictionary; optional): The style of the nodes. (Default: None)
 - edge_style (dictionary; optional): The style of the edges. (Default: None)
+- id (string; optional): The ID used to identify this component in Dash callbacks.
 - df (pd.DataFrame; optional): The user data matrix. (Default: None)"""
 
 # Returns:
@@ -73,6 +77,7 @@ Keyword arguments:
         height=600,
         node_style=None,
         edge_style=None,
+        id=None,
         df=None
     ):
         # print(x)
@@ -81,6 +86,7 @@ Keyword arguments:
         self.height = height
         self.node_style = node_style
         self.edge_style = edge_style
+        self.id = id
         self.df = df
 
     def figure(
@@ -132,10 +138,11 @@ Keyword arguments:
             stylesheet[-2]["css"] = {**stylesheet[-2]["css"], **self.edge_style}
         
         return cyto.Cytoscape(
-                    style= {'width': str(self.width)+'px', 'height': str(self.height)+'px'},
-                    stylesheet=stylesheet,
-                    elements=elems['nodes'] + elems['edges'],
-                    layout={'name': 'preset'})
+                    id = self.id,
+                    style = {'width': str(self.width)+'px', 'height': str(self.height)+'px'},
+                    stylesheet = stylesheet,
+                    elements = elems['nodes'] + elems['edges'],
+                    layout = {'name': 'preset'})
                 # dash_table.DataTable(                                                                                                                                                                               id='cytoscape-node-table',
                 #     columns=[{"name": i, "id": i} for i in result.columns],
                 #     data=result.to_dict('records'))]

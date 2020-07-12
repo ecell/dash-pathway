@@ -2,7 +2,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecell/dash-pathway/master?filepath=notebooks)
 [![PyPI version](https://badge.fury.io/py/dash-pathway.svg)](https://badge.fury.io/py/dash-pathway)
 
-A Dash component for pathway visualization, wrapped around [Dash Cytoscape](https://github.com/plotly/dash-cytoscape)
+A dash component for pathway visualization, wrapped around [dash-cytoscape](https://github.com/plotly/dash-cytoscape)
 
 ![demo](./dash-pathway-demo.gif)
 
@@ -27,7 +27,7 @@ Run the following command in your terminal to run JupyterLab:
 jupyter lab
 ```
 
-Run the following cell inside JupyterLab cell:
+Run the following cell inside JupyterLab cell: (This reproduces the visualization like animated gif at the beginning.)
 ```
 from jupyter_dash import JupyterDash
 import dash
@@ -45,4 +45,16 @@ app.layout = html.Div(id='pathway-body', children=[
 ])
 
 app.run_server()
+```
+
+### Advanced Usage
+dash-pathway not only allows you to visualize pathways, but also maps and integrates data into pathways.
+
+In the example below, we have mapped the quantitative values of a compound's time series onto KEGG global metabolism map.
+The size of compound nodes in the metabolism map increase or decrease in size depending on the amount of the mapped quantitative value.
+And we used the dash slider component to change the quantitative value of each time series.
+
+This allows us to determine how the abundance of compounds in which pathway function changes over time.
+
+```
 ```

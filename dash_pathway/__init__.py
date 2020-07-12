@@ -12,6 +12,8 @@ def KeggScape(
         title="KEGGscape",
         width=600,
         height=600,
+        node_style=None,
+        edge_style=None,
         df=None
 ):
     """Returns a figure for a KEGG pathway.
@@ -21,6 +23,8 @@ Keyword arguments:
 - title (string; optional): Title of the graph. (Default: "KEGGscape")
 - width (int; optional): The width of the graph, in px. (Default: 600)
 - height (int; optional): The height of the graph, in px. (Default: 600)
+- node_style (dictionary; optional): The style of the nodes. (Default: None)
+- edge_style (dictionary; optional): The style of the edges. (Default: None)
 - df (pd.DataFrame; optional): The user data matrix. (Default: None)
 
     # ...
@@ -38,6 +42,8 @@ Keyword arguments:
         pathwayid,
         width=width,
         height=height,
+        node_style=node_style,
+        edge_style=edge_style,
         df=df
     )
 
@@ -53,6 +59,8 @@ Keyword arguments:
 - pathwayid (string; required): A string of KEGG pathway ID
 - width (int; optional): The width of the graph, in px. (Default: 600)
 - height (int; optional): The height of the graph, in px. (Default: 600)
+- node_style (dictionary; optional): The style of the nodes. (Default: None)
+- edge_style (dictionary; optional): The style of the edges. (Default: None)
 - df (pd.DataFrame; optional): The user data matrix. (Default: None)"""
 
 # Returns:
@@ -63,12 +71,16 @@ Keyword arguments:
         x,
         width=600,
         height=600,
+        node_style=None,
+        edge_style=None,
         df=None
     ):
         # print(x)
         self.pathwayid = x
         self.width = width
         self.height = height
+        self.node_style = node_style
+        self.edge_style = edge_style
         self.df = df
 
     def figure(
@@ -112,6 +124,12 @@ Keyword arguments:
             stylesheet = pathway2cyjs.KEGG_GLOBAL_STYLE[0]["style"]
         else:
             stylesheet = pathway2cyjs.KEGG_STYLE[0]["style"]
+        
+        if self.node_style:
+            stylesheet[0]["css"] = {**stylesheet[0]["css"], **self.node_style}
+        
+        if self.edge_style:
+            stylesheet[-2]["css"] = {**stylesheet[-2]["css"], **self.edge_style}
         
         return cyto.Cytoscape(
                     style= {'width': str(self.width)+'px', 'height': str(self.height)+'px'},

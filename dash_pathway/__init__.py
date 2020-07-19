@@ -7,9 +7,9 @@ import pandas as pd
 
 GLOBAL_PATHWAY_IDS = ("01100", "01110", "01120", "01130")
 
-def KeggScape(
+def Pathway(
         pathwayid=None,
-        title="KEGGscape",
+        title="dash-pathway",
         width=600,
         height=600,
         node_style=None,
@@ -20,7 +20,7 @@ def KeggScape(
     """Returns a figure for a KEGG pathway.
 
 Keyword arguments:
-- pathwayid (string; required): A string of KEGG pathway ID
+- pathwayid (string; required): A string of pathway ID
 - title (string; optional): Title of the graph. (Default: "KEGGscape")
 - width (int; optional): The width of the graph, in px. (Default: 600)
 - height (int; optional): The height of the graph, in px. (Default: 600)
@@ -40,7 +40,7 @@ Keyword arguments:
     """
     # print(pathwayid)
 
-    ks = _KeggScape(
+    ks = _Pathway(
         pathwayid,
         width=width,
         height=height,
@@ -54,12 +54,12 @@ Keyword arguments:
         title=title
     )
 
-class _KeggScape():
-    """ A Dash Bio KeggScape class.
+class _Pathway():
+    """ A Dash Bio Pathway class.
 
 Keyword arguments:
 
-- pathwayid (string; required): A string of KEGG pathway ID
+- pathwayid (string; required): A string of pathway ID
 - width (int; optional): The width of the graph, in px. (Default: 600)
 - height (int; optional): The height of the graph, in px. (Default: 600)
 - node_style (dictionary; optional): The style of the nodes. (Default: None)
@@ -68,7 +68,7 @@ Keyword arguments:
 - df (pd.DataFrame; optional): The user data matrix. (Default: None)"""
 
 # Returns:
-#     - object: A Dash Bio KEGGscape object.
+#     - object: A Dash Bio Pathway object.
 
     def __init__(
         self,
@@ -91,42 +91,48 @@ Keyword arguments:
 
     def figure(
             self,
-            title="KEGGscape Plot",
+            title="Pathway Plot",
     ):
         """
 
     Keyword arguments:
-    - title (string; optional): Title of the graph. (Default: "KEGGscape Plot")
+    - title (string; optional): Title of the graph. (Default: "Pathway Plot")
 
     Returns:
     - object: A figure compatible with plotly.graph_objs."""
 
-        elems = pathway2cyjs.kegg2cyjs(self.pathwayid)
-        node_table = pathway2cyjs.cynodes2df(elems['nodes'])
-
-        if self.pathwayid[3:] not in GLOBAL_PATHWAY_IDS:
-            gene_table = node_table[node_table['keggtype'] == "gene"]
-            cynode_table = gene_table[['id', 'keggids', 'name']]
-            tidy_table = cynode_table.assign(keggids=cynode_table.keggids.str.split(" ")).explode('keggids')
-
-        # result = pd.merge(tidy_table[['id', 'keggids', 'name']], self.df, on='keggids')
-
-            if isinstance(self.df, pd.DataFrame):
-                # print(self.df.shape)
-                result = pd.merge(tidy_table[['id', 'keggids', 'name']], self.df, on='keggids')
-                result = result.sort_values(by=['id'])
-            else:
-                result = tidy_table
+        if self.pathwayid.startswith("WP"):
+            elems = pathway2cyjs.wp2cyelements(self.pathwayid)
         else:
-            result = pathway2cyjs.cynodes2df(elems['edges'])
-            result = result.assign(genes=result.genes.str.split(" ")).explode('genes')
+            elems = pathway2cyjs.kegg2cyjs(self.pathwayid)
+        
+        # node_table = pathway2cyjs.cynodes2df(elems['nodes'])
 
-            if isinstance(self.df, pd.DataFrame):
-                # print(self.df)
-                result = pd.merge(result, self.df, on='genes')
-                result = result.sort_values(by=['id'])
+        # if self.pathwayid[3:] not in GLOBAL_PATHWAY_IDS:
+        #     gene_table = node_table[node_table['keggtype'] == "gene"]
+        #     cynode_table = gene_table[['id', 'keggids', 'name']]
+        #     tidy_table = cynode_table.assign(keggids=cynode_table.keggids.str.split(" ")).explode('keggids')
 
-        if self.pathwayid[3:] in GLOBAL_PATHWAY_IDS:
+        # # result = pd.merge(tidy_table[['id', 'keggids', 'name']], self.df, on='keggids')
+
+        #     if isinstance(self.df, pd.DataFrame):
+        #         # print(self.df.shape)
+        #         result = pd.merge(tidy_table[['id', 'keggids', 'name']], self.df, on='keggids')
+        #         result = result.sort_values(by=['id'])
+        #     else:
+        #         result = tidy_table
+        # else:
+        #     result = pathway2cyjs.cynodes2df(elems['edges'])
+        #     result = result.assign(genes=result.genes.str.split(" ")).explode('genes')
+
+        #     if isinstance(self.df, pd.DataFrame):
+        #         # print(self.df)
+        #         result = pd.merge(result, self.df, on='genes')
+        #         result = result.sort_values(by=['id'])
+
+        if self.pathwayid.startswith("WP"):
+            stylesheet = pathway2cyjs.WIKIPATHWAYS_STYLE[0]["style"]
+        elif self.pathwayid[3:] in GLOBAL_PATHWAY_IDS:
             stylesheet = pathway2cyjs.KEGG_GLOBAL_STYLE[0]["style"]
         else:
             stylesheet = pathway2cyjs.KEGG_STYLE[0]["style"]

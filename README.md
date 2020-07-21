@@ -39,7 +39,7 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = JupyterDash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
-app.layout = html.Div(dash_pathway.KeggScape(pathwayid="eco00020", width=1200, height=1200,
+app.layout = html.Div(dash_pathway.Pathway(pathwayid="eco00020", width=1200, height=1200,
                     id='eco00020', node_style={"font-size":14}, edge_style={"width":10.0}))
 
 app.run_server()
@@ -70,7 +70,7 @@ app = JupyterDash(__name__, external_stylesheets=external_stylesheets)
 server = app.server
 
 app.layout = html.Div(id='pathway-body', children=[
-    dash_pathway.KeggScape(pathwayid="eco01100", width=1920, height=1080, id='global-metabolism'),
+    dash_pathway.Pathway(pathwayid="eco01100", width=1920, height=1080, id='global-metabolism'),
     dcc.Slider(
         id='my-slider',
         min=0,

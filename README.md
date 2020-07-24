@@ -45,6 +45,20 @@ app.layout = html.Div(dash_pathway.Pathway(pathwayid="eco00020", width=1200, hei
 app.run_server()
 ```
 
+#### [WikiPathways](https://www.wikipathways.org/index.php/WikiPathways) pathway visualization
+
+```
+app.layout = html.Div(dash_pathway.Pathway(pathwayid="WP3583", width=1200, height=1200,
+                                           id='eco00020', node_style={"font-size":14}, edge_style={"width":10.0}))
+```
+
+#### [Escher](https://escher.github.io/#/) pathway visualization
+
+```
+app.layout = html.Div(dash_pathway.Pathway(pathwayid="https://github.com/escher/global-map/raw/master/src/data/iJO1366.Central%20metabolism.json",
+                                           width=1200, height=1200, id='eco00020', node_style={"font-size":14}, edge_style={"width":10.0}))
+```
+
 ### Advanced Usage
 dash-pathway not only allows you to visualize pathways, but also maps and integrates data into pathways.
 

@@ -103,6 +103,8 @@ Keyword arguments:
 
         if self.pathwayid.startswith("WP"):
             elems = pathway2cyjs.wp2cyelements(self.pathwayid)
+        elif self.pathwayid.endswith(".json"):
+            elems = pathway2cyjs.escher2cyelements(self.pathwayid)
         else:
             elems = pathway2cyjs.kegg2cyjs(self.pathwayid)
         

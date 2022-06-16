@@ -6,7 +6,7 @@ retrying
 ipython
 ipykernel
 ansi2html
-notebook==6.1.5
+notebook==6.4.12
 jupyter_server_proxy
 pandas
 numpy
